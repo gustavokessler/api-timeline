@@ -2,24 +2,13 @@
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { CartasModule } from './cartas/cartas.module';
+import { CardsModule } from './cards/cards.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [AuthModule, CartasModule,
-    TypeOrmModule.forRoot({
-      "type": "mysql",
-      "host": "localhost",
-      "port": 3306,
-      "username": "root", // TODO DEPOIS MUDAR ISSO AQUI PARA O TIMELINE
-      "password": "neshapass",
-      "database": "timeline",
-      // "entities": ["dist/**/*.entity{.ts,.js}"],
-      "synchronize": true,
-      "autoLoadEntities": true
-    })
-  ],
+  imports: [AuthModule, CardsModule, ConfigModule],
   controllers: [AppController],
   providers: [AppService],
 })
