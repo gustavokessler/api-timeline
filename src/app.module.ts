@@ -6,9 +6,10 @@ import { CardsModule } from './cards/cards.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from './config/config.module';
+import { DeckModule } from './deck/deck.module';
 
 @Module({
-  imports: [AuthModule, CardsModule, ConfigModule],
+  imports: [AuthModule, CardsModule, ConfigModule, DeckModule],
   controllers: [AppController],
   providers: [AppService],
 })

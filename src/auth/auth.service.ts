@@ -23,6 +23,8 @@ export class AuthService {
       password,
       nome
     })
+
+    console.log(professor);
     return from(this.professorRepository.insert(professor)).pipe(
       map((result) => {
         return result.generatedMaps
