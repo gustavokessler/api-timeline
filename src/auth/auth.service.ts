@@ -21,7 +21,7 @@ export class AuthService {
     const professor = this.professorRepository.create({
       email,
       password,
-      nome
+      name: nome
     })
 
     console.log(professor);
