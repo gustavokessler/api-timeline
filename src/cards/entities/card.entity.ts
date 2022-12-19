@@ -5,6 +5,9 @@ export class Card{
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({name: 'professor_id'})
+  professorId: number;
+
   @Column()
   name: string;
 

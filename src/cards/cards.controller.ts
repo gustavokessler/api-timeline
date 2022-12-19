@@ -12,9 +12,9 @@ export class CardsController {
     return this.cardsService.create(createCardDto);
   }
 
-  @Get()
-  findAll() {
-    return this.cardsService.findAll();
+  @Get('list/:id')
+  findAll(@Param('id') id: string) {
+    return this.cardsService.findAll(+id);
   }
 
   @Get(':id')

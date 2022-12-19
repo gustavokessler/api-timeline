@@ -16,6 +16,7 @@ export class CardsService {
 
   create(createCardDto: CreateCardDto) {
     const card = this.cardRepository.create({
+      professorId: 1,
       name: createCardDto.name,
       date: createCardDto.date,
       description: createCardDto.description,
@@ -29,7 +30,7 @@ export class CardsService {
     );
   }
 
-  findAll() {
+  findAll(id: number) {
     return from(this.cardRepository.find())
   }
 
