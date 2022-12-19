@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 import { Card } from "src/cards/entities/card.entity";
 
@@ -24,4 +24,12 @@ export class Deck {
   })
   card: Card[]
 
+}
+@Entity({name: 'card_has_deck'})
+export class DeckCards {
+  @PrimaryColumn({name: 'card_id'})
+  cardId: number
+
+  @PrimaryColumn({name: 'deck_id'})
+  deckId: number
 }

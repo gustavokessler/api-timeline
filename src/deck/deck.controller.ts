@@ -27,10 +27,10 @@ export class DeckController {
   
   
   @Post('card/:id')
-  addCartToDeck(@Param('id') id: string, @Body() cards: number[], @Query('professorId') professorId: string) {
+  addCartToDeck(@Param('id') id: string, @Body() body: {card: number}, @Query('professorId') professorId: string) {
     if (!professorId) return new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
-    return this.deckService.addCardToDeck(+id, cards);
+    return this.deckService.addCardToDeck(+id, body.card);
   }
 
   @Patch(':id')
