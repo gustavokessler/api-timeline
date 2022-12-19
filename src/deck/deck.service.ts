@@ -13,7 +13,7 @@ export class DeckService {
   constructor(
     @Inject(constants.DECK_REPOSITORY)
     private deckRepository: Repository<Deck>
-  ){}
+  ) { }
 
   create(createDeckDto: CreateDeckDto) {
     const deck = this.deckRepository.create({
@@ -30,18 +30,20 @@ export class DeckService {
 
   findAll(professorId: number) {
 
-    if(!professorId) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    if (!professorId) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
     return this.deckRepository.find({
-      where: {professorId: professorId},
+      where: { professorId: professorId },
       relations: {
         card: true
       }
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} deck`;
+  findOne(id: number, professorId: number) {
+    return from(this.deckRepository.findOneOrFail({
+      where: { id: id, professorId: professorId }
+    }).catch(() => { throw new HttpException('Not Found', HttpStatus.NOT_FOUND) }));
   }
 
   update(id: number, updateDeckDto: UpdateDeckDto) {
@@ -51,4 +53,9 @@ export class DeckService {
   remove(id: number) {
     return `This action removes a #${id} deck`;
   }
+
+  addCardToDeck(id: number, cards: number[]){
+
+  }
+
 }

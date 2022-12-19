@@ -45,8 +45,7 @@ export class CardsService {
       where: { id: id, professorId: professorId}
     }).catch(() => {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
-    }
-    ))
+    }))
   }
 
   update(id: number, updateCardDto: UpdateCardDto) {
