@@ -1,15 +1,29 @@
 import { Injectable } from '@nestjs/common';
+import { Inject } from '@nestjs/common/decorators';
+import { constants } from 'src/shared/constants/constants';
+import { Repository } from 'typeorm';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
+import { Deck } from './entities/deck.entity';
 
 @Injectable()
 export class DeckService {
+
+  constructor(
+    @Inject(constants.DECK_REPOSITORY)
+    private deckRepository: Repository<Deck>
+  ){}
+
   create(createDeckDto: CreateDeckDto) {
     return 'This action adds a new deck';
   }
 
   findAll() {
-    return `This action returns all deck`;
+    return this.deckRepository.find({
+      relations: {
+        card: true
+      }
+    });
   }
 
   findOne(id: number) {
