@@ -1,1 +1,9 @@
-export class CreateDeckDto {}
+export class CreateDeckDto {
+
+  professorId: number;
+
+  name: string;
+
+  description: string;
+
+}

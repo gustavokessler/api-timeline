@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
+import { from, map } from 'rxjs';
 import { constants } from 'src/shared/constants/constants';
 import { Repository } from 'typeorm';
 import { CreateDeckDto } from './dto/create-deck.dto';
@@ -15,11 +16,24 @@ export class DeckService {
   ){}
 
   create(createDeckDto: CreateDeckDto) {
-    return 'This action adds a new deck';
+    const deck = this.deckRepository.create({
+      professorId: createDeckDto.professorId,
+      name: createDeckDto.name,
+      description: createDeckDto.description,
+    })
+    return from(this.deckRepository.insert(deck)).pipe(
+      map(() => {
+        return deck
+      })
+    )
   }
 
-  findAll() {
+  findAll(professorId: number) {
+
+    if(!professorId) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+
     return this.deckRepository.find({
+      where: {professorId: professorId},
       relations: {
         card: true
       }

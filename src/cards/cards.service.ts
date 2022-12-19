@@ -16,7 +16,7 @@ export class CardsService {
 
   create(createCardDto: CreateCardDto) {
     const card = this.cardRepository.create({
-      professorId: 1,
+      professorId: createCardDto.professorId,
       name: createCardDto.name,
       date: createCardDto.date,
       description: createCardDto.description,

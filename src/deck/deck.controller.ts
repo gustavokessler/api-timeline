@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Query } from '@nestjs/common/decorators';
 import { DeckService } from './deck.service';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
@@ -13,8 +14,8 @@ export class DeckController {
   }
 
   @Get()
-  findAll() {
-    return this.deckService.findAll();
+  findAll(@Query('professorId') professorId: string) {
+    return this.deckService.findAll(+professorId);
   }
 
   @Get(':id')
