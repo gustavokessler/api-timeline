@@ -12,7 +12,7 @@ export class CardsService {
   constructor(
     @Inject(constants.CARDS_REPOSITORY)
     private cardRepository: Repository<Card>
-  ){}
+  ) { }
 
   create(createCardDto: CreateCardDto) {
     const card = this.cardRepository.create({
@@ -31,12 +31,18 @@ export class CardsService {
   }
 
   findAll(id: number) {
-    return from(this.cardRepository.find())
+    if (!id) throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+
+    return from(this.cardRepository.find({
+      where: { professorId: id }
+    }))
   }
 
-  findOne(id: number) {
+  findOne(id: number, professorId: number) {
+    if (!professorId) throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+
     return from(this.cardRepository.findOneOrFail({
-      where: {id: id}
+      where: { id: id, professorId: professorId}
     }).catch(() => {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND)
     }
