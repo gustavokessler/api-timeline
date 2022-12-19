@@ -1,10 +1,10 @@
 import { CreateCardDto } from './dto/create-card.dto';
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { constants } from 'src/shared/constants/constants';
 import { Card } from './entities/card.entity';
 import { Repository } from 'typeorm';
-import { from, map } from 'rxjs';
+import { catchError, from, map, of } from 'rxjs';
 
 @Injectable()
 export class CardsService {
@@ -22,8 +22,6 @@ export class CardsService {
       image: createCardDto.image,
     })
 
-    console.log(card);
-
     return from(this.cardRepository.insert(card)).pipe(
       map(() => {
         return card
@@ -32,18 +30,36 @@ export class CardsService {
   }
 
   findAll() {
-    return `This action returns all cards`;
+    return from(this.cardRepository.find())
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} card`;
+    return from(this.cardRepository.findOneOrFail({
+      where: {id: id}
+    }).catch(() => {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    }
+    ))
   }
 
   update(id: number, updateCardDto: UpdateCardDto) {
-    return `This action updates a #${id} card`;
+    const card = this.cardRepository.create({
+      id: id,
+      name: updateCardDto.name,
+      date: updateCardDto.date,
+      description: updateCardDto.description,
+      image: updateCardDto.image,
+    })
+
+    return from(this.cardRepository.save(card))
   }
 
   remove(id: number) {
-    return `This action removes a #${id} card`;
+
+    return from(this.cardRepository.softDelete(id)).pipe(
+      map((res) => {
+        return 'deleted successeful'
+      })
+    );
   }
 }
