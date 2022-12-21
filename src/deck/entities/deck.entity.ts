@@ -22,7 +22,7 @@ export class Deck {
     joinColumn: {name: 'deck_id', referencedColumnName: 'id'},
     inverseJoinColumn: {name: 'card_id', referencedColumnName: 'id'}
   })
-  card: Card[]
+  cards: Card[]
 
 }
 @Entity({name: 'card_has_deck'})

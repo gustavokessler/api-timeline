@@ -37,7 +37,7 @@ export class DeckService {
     return this.deckRepository.find({
       where: { professorId: professorId },
       relations: {
-        card: true
+        cards: true
       }
     });
   }
@@ -45,7 +45,7 @@ export class DeckService {
   findOne(id: number, professorId: number) {
     return from(this.deckRepository.findOneOrFail({
       where: { id: id, professorId: professorId },
-      relations: { card: true }
+      relations: { cards: true }
     }).catch(() => { throw new HttpException('Not Found', HttpStatus.NOT_FOUND) }));
   }
 
