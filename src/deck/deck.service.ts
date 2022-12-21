@@ -85,4 +85,12 @@ export class DeckService {
     )
   }
 
+  removeCardFromDeck(deckId: number, cardId: number){
+    return from(this.deckCardsRepository.remove({
+      cardId,
+      deckId
+    }))
+
+  }
+
 }

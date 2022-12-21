@@ -43,6 +43,13 @@ export class DeckController {
     return this.deckService.remove(+id);
   }
 
+
+  @Delete('card/id:')
+  removeCardFromDeck(@Param('id') deckId: string,@Body() body: {card: number}, @Query('professorId') professorId: string){
+    if (!professorId) return new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    return this.deckService.removeCardFromDeck(+deckId, body.card);
+  }
+
   @Get('card/available/:id')
   getAvailableCards(@Param('id') deckId: string, @Query('professorId') professorId: string){
     if (!professorId) return new HttpException('Not Found', HttpStatus.NOT_FOUND);
