@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common';
 @Module({
   imports: [DatabaseModule],
   controllers: [CardsController],
-  providers: [CardsService, ...CardsProviders]
+  providers: [CardsService, ...CardsProviders],
+  exports: [CardsService]
 })
 export class CardsModule {}

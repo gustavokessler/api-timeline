@@ -1,8 +1,9 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
-import { from, map } from 'rxjs';
+import { from, map, switchMap } from 'rxjs';
+import { Card } from 'src/cards/entities/card.entity';
 import { constants } from 'src/shared/constants/constants';
-import { QueryBuilder, Repository } from 'typeorm';
+import { In, Not, QueryBuilder, Repository } from 'typeorm';
 import { CreateDeckDto } from './dto/create-deck.dto';
 import { UpdateDeckDto } from './dto/update-deck.dto';
 import { Deck, DeckCards } from './entities/deck.entity';
@@ -14,7 +15,10 @@ export class DeckService {
     @Inject(constants.DECK_REPOSITORY)
     private deckRepository: Repository<Deck>,
     @Inject(constants.DECK_CARDS_REPOSITORY)
-    private deckCardsRepository: Repository<DeckCards>
+    private deckCardsRepository: Repository<DeckCards>,
+    @Inject(constants.CARDS_REPOSITORY)
+    private cardRepository: Repository<Card>,
+    
   ) { }
 
   create(createDeckDto: CreateDeckDto) {
@@ -65,6 +69,18 @@ export class DeckService {
     return from(this.deckCardsRepository.insert(deckCard)).pipe(
       map(() => {
         deckCard
+      })
+    )
+  }
+
+  getAvailableCards(deckId: number, professorId: number){
+    return from(this.findOne(deckId, professorId)).pipe(
+      switchMap((deck) => {
+        return this.cardRepository.find({
+          where: {
+            id: Not(In((deck.cards.map((card) => card.id)))),
+          }
+        })
       })
     )
   }
