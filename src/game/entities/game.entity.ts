@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { Deck } from './../../deck/entities/deck.entity';
 
@@ -10,6 +10,10 @@ export class Game {
   @Column()
   uid: string;
 
-  @ManyToOne(() => Deck)
-  deckId: Deck;
+  @OneToOne(() => Deck)
+  @JoinColumn({name: 'deck_id'})
+  deck: Deck;
+
+  @Column({name: 'professor_id'})
+  professorId: number
 }

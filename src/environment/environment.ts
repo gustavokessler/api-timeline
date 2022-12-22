@@ -8,7 +8,6 @@ export const ormConfigFactory: () => MysqlConnectionOptions = () => ({
   password: "neshapass",
   database: "timeline",
   entities: ["dist/**/*.entity{.ts,.js}"],
-  synchronize: true,
   autoLoadEntities: true,
   isGenerated: true,
   generationStrategy: 'increment',

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
+import { tap } from 'rxjs';
 
 @Controller('game')
 export class GameController {
@@ -19,7 +20,7 @@ export class GameController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.gameService.findOne(+id);
+    return this.gameService.findOne(id)
   }
 
   @Patch(':id')

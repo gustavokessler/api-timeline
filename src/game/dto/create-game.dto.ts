@@ -1,3 +1,3 @@
 export class CreateGameDto {
-  deck_id
+  deckId: number
 }
