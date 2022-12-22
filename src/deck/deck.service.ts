@@ -1,6 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
 import { from, map, switchMap } from 'rxjs';
+import { CardsService } from 'src/cards/cards.service';
+import { CreateCardDto } from 'src/cards/dto/create-card.dto';
 import { Card } from 'src/cards/entities/card.entity';
 import { constants } from 'src/shared/constants/constants';
 import { In, Not, QueryBuilder, Repository } from 'typeorm';
@@ -18,7 +20,8 @@ export class DeckService {
     private deckCardsRepository: Repository<DeckCards>,
     @Inject(constants.CARDS_REPOSITORY)
     private cardRepository: Repository<Card>,
-    
+    private cardService: CardsService
+  
   ) { }
 
   create(createDeckDto: CreateDeckDto) {
@@ -90,7 +93,14 @@ export class DeckService {
       cardId,
       deckId
     }))
+  }
 
+  addNewCardToDeck(deckId: number, card: CreateCardDto){
+    return this.cardService.create(card).pipe(
+      switchMap((card) => {
+        return this.addCardToDeck(deckId, card.id);
+      })
+    )
   }
 
 }
