@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { from } from 'rxjs';
+import { from, map } from 'rxjs';
 import { constants } from 'src/shared/constants/constants';
 import { Repository } from 'typeorm';
 import { CreateGameDto } from './dto/create-game.dto';
@@ -17,8 +17,15 @@ export class GameService {
     private gameRepository: Repository<Game>
   ){}
 
-  create(createGameDto: CreateGameDto) {
-    return 'This action adds a new game';
+  create(createGameDto: CreateGameDto, professorId: number) {
+    const game = this.gameRepository.create({
+      deckId: +createGameDto.deckId,
+      professorId: professorId,
+
+    })
+    return from(this.gameRepository.insert(game)).pipe(
+      map(() => game)
+    )
   }
 
   findAll(professorId: number) {

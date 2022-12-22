@@ -11,8 +11,9 @@ export class GameController {
   constructor(private readonly gameService: GameService) {}
 
   @Post()
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gameService.create(createGameDto);
+  create(@Body() createGameDto: CreateGameDto, @Query('professorId') professorId: string) {
+    if (!professorId) return new HttpException('Not found', HttpStatus.NOT_FOUND)
+    return this.gameService.create(createGameDto, +professorId);
   }
 
   @Get()
