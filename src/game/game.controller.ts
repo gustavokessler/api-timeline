@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { GameService } from './game.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { tap } from 'rxjs';
+import { HttpException } from '@nestjs/common/exceptions';
+import { HttpStatus } from '@nestjs/common/enums';
 
 @Controller('game')
 export class GameController {
@@ -14,8 +16,10 @@ export class GameController {
   }
 
   @Get()
-  findAll() {
-    return this.gameService.findAll();
+  findAll(@Query('professorId') professorId: string) {
+    if (!professorId) return new HttpException('Not found', HttpStatus.NOT_FOUND)
+    console.log('a')
+    return this.gameService.findAll(+professorId);
   }
 
   @Get(':id')

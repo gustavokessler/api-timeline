@@ -21,8 +21,13 @@ export class GameService {
     return 'This action adds a new game';
   }
 
-  findAll() {
-    return `This action returns all game`;
+  findAll(professorId: number) {
+    return from(this.gameRepository.find({
+      where: { professorId},
+      relations: ['deck', 'deck.cards']
+    }).catch((er) => {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND)
+    }))
   }
 
   findOne(uid: string) {
