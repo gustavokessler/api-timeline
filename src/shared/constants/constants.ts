@@ -3,5 +3,6 @@ export const constants = Object.freeze({
   DATABASE_CONNECTION: Symbol(),
   CARDS_REPOSITORY: Symbol(),
   DECK_REPOSITORY: Symbol(),
-  DECK_CARDS_REPOSITORY: Symbol()
+  DECK_CARDS_REPOSITORY: Symbol(),
+  GAME_REPOSITORY: Symbol()
 })
