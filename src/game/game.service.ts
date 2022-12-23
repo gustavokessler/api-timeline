@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { Game } from './entities/game.entity';
+import { ulid } from 'ulid'
 
 @Injectable()
 export class GameService {
@@ -21,6 +22,7 @@ export class GameService {
     const game = this.gameRepository.create({
       deckId: +createGameDto.deckId,
       professorId: professorId,
+      uid: ulid()
 
     })
     return from(this.gameRepository.insert(game)).pipe(

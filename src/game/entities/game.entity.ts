@@ -7,7 +7,7 @@ export class Game {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Generated('uuid')
+  @Column()
   uid: string;
 
   @OneToOne(() => Deck)
@@ -19,4 +19,7 @@ export class Game {
 
   @Column({name: 'professor_id'})
   professorId: number
+
+  @Column({name: 'name'})
+  name: string;
 }
