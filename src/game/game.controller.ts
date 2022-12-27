@@ -19,7 +19,6 @@ export class GameController {
   @Get()
   findAll(@Query('professorId') professorId: string) {
     if (!professorId) return new HttpException('Not found', HttpStatus.NOT_FOUND)
-    console.log('a')
     return this.gameService.findAll(+professorId);
   }
 

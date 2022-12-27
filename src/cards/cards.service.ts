@@ -35,7 +35,7 @@ export class CardsService {
 
     return from(this.cardRepository.find({
       where: { professorId: id }
-    }))
+    }).catch((err) => console.log(err)))
   }
 
   findOne(id: number, professorId: number) {

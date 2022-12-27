@@ -20,6 +20,6 @@ export class Game {
   @Column({name: 'professor_id'})
   professorId: number
 
-  @Column({name: 'name'})
+  @Column()
   name: string;
 }

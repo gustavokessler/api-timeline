@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { Inject } from '@nestjs/common/decorators';
+import { format } from 'path';
 import { from, map, switchMap } from 'rxjs';
 import { CardsService } from 'src/cards/cards.service';
 import { CreateCardDto } from 'src/cards/dto/create-card.dto';
@@ -21,7 +23,7 @@ export class DeckService {
     @Inject(constants.CARDS_REPOSITORY)
     private cardRepository: Repository<Card>,
     private cardService: CardsService
-  
+
   ) { }
 
   create(createDeckDto: CreateDeckDto) {
@@ -41,12 +43,10 @@ export class DeckService {
 
     if (!professorId) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
 
-    return this.deckRepository.find({
-      where: { professorId: professorId },
-      relations: {
-        cards: true
-      }
-    });
+    return from(this.deckRepository.find({
+      where: {professorId: professorId},
+      relations: {cards: true}
+    }).catch((res) => console.log(res)));
   }
 
   findOne(id: number, professorId: number) {
@@ -76,7 +76,7 @@ export class DeckService {
     )
   }
 
-  getAvailableCards(deckId: number, professorId: number){
+  getAvailableCards(deckId: number, professorId: number) {
     return from(this.findOne(deckId, professorId)).pipe(
       switchMap((deck) => {
         return this.cardRepository.find({
@@ -88,14 +88,14 @@ export class DeckService {
     )
   }
 
-  removeCardFromDeck(deckId: number, cardId: number){
+  removeCardFromDeck(deckId: number, cardId: number) {
     return from(this.deckCardsRepository.remove({
       cardId,
       deckId
     }))
   }
 
-  addNewCardToDeck(deckId: number, card: CreateCardDto){
+  addNewCardToDeck(deckId: number, card: CreateCardDto) {
     return this.cardService.create(card).pipe(
       switchMap((card) => {
         return this.addCardToDeck(deckId, card.id);

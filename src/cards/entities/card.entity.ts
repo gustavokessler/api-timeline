@@ -20,7 +20,7 @@ export class Card{
   @Column()
   image: string;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({name: 'deleted_at'})
   deletedAt?: Date;
 
 }

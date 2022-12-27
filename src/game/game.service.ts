@@ -22,7 +22,8 @@ export class GameService {
     const game = this.gameRepository.create({
       deckId: +createGameDto.deckId,
       professorId: professorId,
-      uid: ulid()
+      uid: ulid(),
+      name: createGameDto.name
 
     })
     return from(this.gameRepository.insert(game)).pipe(
