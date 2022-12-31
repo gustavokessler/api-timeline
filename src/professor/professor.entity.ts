@@ -12,6 +12,6 @@ export class Professor{
   email: string;
 
   @Column()
-  password: string;
+  password?: string;
 
 }

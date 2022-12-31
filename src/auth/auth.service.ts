@@ -14,7 +14,21 @@ export class AuthService {
   ){}
 
   login(email: string, password: string) {
-    return true;
+    return from(this.professorRepository.findOne({
+      where: {
+        email,
+        password
+      }
+    })).pipe(
+      map((professor) => {
+        const response: Professor = {
+          email: professor.email,
+          id: professor.id,
+          name: professor.name
+        };
+        return response;
+      })
+    )
   }
 
   createAccount(email: string, password: string, nome: string){
