@@ -5,7 +5,7 @@ export const ormConfigFactory: () => MysqlConnectionOptions = () => ({
   host: "sql.freedb.tech",
   port: 3306,
   username: "freedb_api_user", // TODO DEPOIS MUDAR ISSO AQUI PARA O TIMELINE
-  password: "@R@Ufz9EA&GV8Wc",
+  password: process.env.DATABASE_PASSWORD || "neshapass",
   database: "freedb_timeline",
   entities: ["dist/**/*.entity{.ts,.js}"],
   autoLoadEntities: true,
