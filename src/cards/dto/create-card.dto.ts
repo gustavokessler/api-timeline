@@ -6,8 +6,7 @@ export class CreateCardDto {
 
   name: string;
 
-  @IsISO8601()
-  date: string;
+  date: number;
 
   description: string;
   

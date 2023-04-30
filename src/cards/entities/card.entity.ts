@@ -12,7 +12,7 @@ export class Card{
   name: string;
 
   @Column()
-  date: Date;
+  date: number;
 
   @Column()
   description: string;
