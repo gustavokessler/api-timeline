@@ -30,6 +30,9 @@ RUN apk add --no-cache make gcc g++ python3 && \
 
 COPY --from=development /usr/src/app/dist ./dist
 
+EXPOSE 3003/udp
+EXPOSE 3003/tcp
+
 
 CMD ["node", "dist/main.js"]
 
