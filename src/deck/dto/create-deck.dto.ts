@@ -6,4 +6,6 @@ export class CreateDeckDto {
 
   description: string;
 
+  id: number;
+
 }

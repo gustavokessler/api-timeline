@@ -56,8 +56,12 @@ export class DeckService {
     }).catch(() => { throw new HttpException('Not Found', HttpStatus.NOT_FOUND) }));
   }
 
-  update(id: number, updateDeckDto: UpdateDeckDto) {
-    return `This action updates a #${id} deck`;
+  update(_id: number, deck: UpdateDeckDto) {
+    return this.deckRepository.save({
+      id: deck.id,
+      name: deck.name,
+      description: deck.description,
+    })
   }
 
   remove(id: number) {

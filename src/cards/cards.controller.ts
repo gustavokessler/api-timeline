@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
@@ -23,10 +24,10 @@ export class CardsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCardDto: UpdateCardDto, @Query('professorId') professorId: string) {
-    if (updateCardDto.professorId != +professorId) return new HttpException('Not found', HttpStatus.NOT_FOUND)
-    return this.cardsService.update(+id, updateCardDto);
+  update(@Body() CardDto: UpdateCardDto) {
+    return this.cardsService.update(CardDto.id, CardDto);
   }
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

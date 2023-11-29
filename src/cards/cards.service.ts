@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { CreateCardDto } from './dto/create-card.dto';
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { UpdateCardDto } from './dto/update-card.dto';
@@ -48,16 +49,15 @@ export class CardsService {
     }))
   }
 
-  update(id: number, updateCardDto: UpdateCardDto) {
-    const card = this.cardRepository.create({
+  update(id: number, card: UpdateCardDto) {
+    
+    return this.cardRepository.save({
       id: id,
-      name: updateCardDto.name,
-      date: updateCardDto.date,
-      description: updateCardDto.description,
-      image: updateCardDto.image,
+      date: card.date,
+      description: card.description,
+      image: card.image,
+      name: card.name
     })
-
-    return from(this.cardRepository.save(card))
   }
 
   remove(id: number) {

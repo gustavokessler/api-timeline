@@ -35,8 +35,9 @@ export class DeckController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDeckDto: UpdateDeckDto) {
-    return this.deckService.update(+id, updateDeckDto);
+  update(@Param('id') id: number, @Body() createDeckDto: UpdateDeckDto) {
+    console.log(createDeckDto);
+    return this.deckService.update(id, createDeckDto);
   }
 
   @Delete(':id')
